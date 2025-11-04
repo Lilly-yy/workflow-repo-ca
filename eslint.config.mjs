@@ -5,8 +5,10 @@ import prettier from 'eslint-plugin-prettier';
 import { defineConfig } from 'eslint/config';
 
 export default defineConfig([
+  // browser + vitest
   {
     files: ['**/*.{js,mjs,cjs}'],
+    ignores: ['tests/e2e/**', 'playwright.config.js'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
@@ -21,11 +23,22 @@ export default defineConfig([
       'prettier/prettier': 'warn',
     },
   },
-  // 👇 Add this block
+  // tailwind config (node)
   {
     files: ['tailwind.config.js'],
     languageOptions: {
-      globals: globals.node,
+      globals: {
+        ...globals.node,
+      },
+    },
+  },
+  // playwright + e2e tests (node)
+  {
+    files: ['playwright.config.js', 'tests/e2e/**/*.js'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
     },
   },
 ]);
